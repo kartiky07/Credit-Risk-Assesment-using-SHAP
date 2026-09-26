@@ -34,9 +34,7 @@ jobs:
 
       # Optional: Log in to Docker Hub if secrets are provided
       - name: Log in to Docker Hub
-        if: "${{ env.DOCKERHUB_USERNAME != '' }}"
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        if: "${{ secrets.DOCKERHUB_USERNAME != '' }}"
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -47,7 +45,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            ${{ secrets.DOCKERHUB_USERNAME != '' && format('{0}/credit-risk-app', secrets.DOCKERHUB_USERNAME) || '' }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
