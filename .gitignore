@@ -1,1 +1,10 @@
-.__pycache__
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+mlruns/
+mlflow.db
+data/inferences.db
+.pytest_cache/

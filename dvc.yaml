@@ -1,0 +1,29 @@
+stages:
+  prepare_data:
+    cmd: python src/data_loader.py
+    deps:
+      - credit_risk_dataset.csv
+      - src/data_loader.py
+      - config/config.yaml
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train_and_evaluate:
+    cmd: python src/train.py
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/train.py
+      - src/preprocessing.py
+      - src/threshold.py
+      - src/evaluate.py
+      - src/explain.py
+      - config/config.yaml
+    outs:
+      - credit_risk_model.pkl
+      - best_threshold.pkl
+      - models/shap_explainer.pkl
+    metrics:
+      - models/metrics.json:
+          cache: false

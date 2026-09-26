@@ -1,0 +1,9 @@
+{
+  "dataset_drift_detected": false,
+  "share_of_drifted_columns": 0.2727272727272727,
+  "number_of_drifted_columns": 3,
+  "number_of_columns": 11,
+  "reference_samples": 25217,
+  "current_samples": 200,
+  "drifted_features": []
+}

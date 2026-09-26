@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  web:
+    image: ghcr.io/${GITHUB_REPOSITORY:-tanishq-latent/credit-risk-assesment-using-shap}:latest
+    container_name: credit_risk_api
+    restart: always
+    ports:
+      - "80:8000"
+      - "8000:8000"
+    environment:
+      - PORT=8000
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/openapi.json"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: credit_risk_mlflow
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow.db:/mlflow/mlflow.db
+      - ./models:/mlflow/models
+    command: mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:////mlflow/mlflow.db

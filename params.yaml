@@ -1,0 +1,17 @@
+data:
+  test_size: 0.2
+  random_state: 42
+
+validation:
+  min_age: 18
+  max_age: 100
+  max_emp_length: 60
+  min_loan_amnt: 0
+
+model:
+  n_estimators: 300
+  max_depth: 5
+  learning_rate: 0.1
+  calibration_method: "sigmoid"
+  calibration_cv: 5
+  random_state: 42

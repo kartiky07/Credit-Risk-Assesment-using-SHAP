@@ -120,6 +120,65 @@
     factResult.textContent = data.Result;
   }
 
+  const shapBox = document.getElementById("shapBox");
+  const shapRiskList = document.getElementById("shapRiskList");
+  const shapMitigatingList = document.getElementById("shapMitigatingList");
+
+  function formatFeatureName(raw) {
+    return raw
+      .replace(/_/g, " ")
+      .replace("cb person ", "")
+      .replace("person ", "");
+  }
+
+  function renderShap(data) {
+    if (!shapBox || !shapRiskList || !shapMitigatingList) return;
+    shapRiskList.innerHTML = "";
+    shapMitigatingList.innerHTML = "";
+
+    const riskDrivers = data.top_risk_drivers || [];
+    const mitigatingFactors = data.top_mitigating_factors || [];
+
+    if (riskDrivers.length === 0 && mitigatingFactors.length === 0) {
+      shapBox.hidden = true;
+      return;
+    }
+
+    riskDrivers.forEach((item) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${formatFeatureName(item.feature)}</span><span class="impact impact--pos">+${item.impact.toFixed(2)}</span>`;
+      shapRiskList.appendChild(li);
+    });
+
+    mitigatingFactors.forEach((item) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${formatFeatureName(item.feature)}</span><span class="impact impact--neg">${item.impact.toFixed(2)}</span>`;
+      shapMitigatingList.appendChild(li);
+    });
+
+    shapBox.hidden = false;
+  }
+
+  async function fetchExplanation(payload) {
+    if (!shapBox) return;
+    try {
+      const res = await fetch("/explain", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.status === "success") {
+        renderShap(data);
+      } else {
+        shapBox.hidden = true;
+      }
+    } catch {
+      shapBox.hidden = true;
+    }
+  }
+
   // ---------- Submit ----------
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -155,6 +214,7 @@
 
       const data = await res.json();
       renderVerdict(data);
+      fetchExplanation(payload);
     } catch (err) {
       showError(`Could not reach the ledger. ${err.message || "Check the service is running."}`);
     } finally {

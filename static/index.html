@@ -28,6 +28,7 @@
     <div class="masthead__status" id="apiStatus">
       <span class="dot" id="apiDot"></span>
       <span id="apiStatusText">checking service…</span>
+      <a href="/monitoring/report" target="_blank" class="drift-link" title="Open Evidently AI Data Drift & Quality Dashboard" style="color: var(--brass); font-size: 11px; text-decoration: none; margin-left: 10px; border: 1px solid var(--line); padding: 4px 8px; border-radius: 3px; font-family: var(--mono); background: var(--surface-2);">📊 Drift Report</a>
     </div>
   </header>
 
@@ -199,6 +200,20 @@
             <dd id="factResult">—</dd>
           </div>
         </dl>
+
+        <div class="shap-box" id="shapBox" hidden>
+          <div class="shap-box__header">Key Decision Drivers (SHAP Local Attribution)</div>
+          <div class="shap-box__grid">
+            <div class="shap-group">
+              <span class="shap-group__title shap-group__title--risk">▲ Factors Increasing Risk</span>
+              <ul class="shap-list" id="shapRiskList"></ul>
+            </div>
+            <div class="shap-group">
+              <span class="shap-group__title shap-group__title--mitigating">▼ Mitigating Factors</span>
+              <ul class="shap-list" id="shapMitigatingList"></ul>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>

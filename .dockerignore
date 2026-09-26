@@ -1,0 +1,15 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.gitignore
+.github/
+mlruns/
+data/processed/
+.pytest_cache/
+tests/
+*.log
+Credit_Risk.ipynb

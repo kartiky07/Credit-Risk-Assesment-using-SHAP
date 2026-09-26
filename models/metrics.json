@@ -1,0 +1,16 @@
+{
+  "roc_auc": 0.9520256325933558,
+  "pr_auc": 0.9080181114546805,
+  "brier_score": 0.0526656943017847,
+  "log_loss": 0.1918161855321625,
+  "accuracy": 0.9395717684377478,
+  "precision": 0.9757516973811833,
+  "recall": 0.7386196769456681,
+  "f1": 0.8407856247388216,
+  "threshold": 0.7204063034101886,
+  "true_negatives": 4918,
+  "false_positives": 25,
+  "false_negatives": 356,
+  "true_positives": 1006,
+  "scale_pos_weight": 3.6312213039485766
+}
